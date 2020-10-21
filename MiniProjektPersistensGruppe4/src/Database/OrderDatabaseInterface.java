@@ -1,14 +1,10 @@
 package Database;
 
-public class OrderDatabaseInterface {
+import Model.Customer;
+import Model.Order;
 
-	public OrderDatabaseInterface() {
-		// TODO Auto-generated constructor stub
-	}
+public interface OrderDatabaseInterface {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
+	Order createOrder(Customer customer);
+	Order endOrder(Order order);
 }
