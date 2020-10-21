@@ -9,7 +9,7 @@ import Model.Product;
 public class ProductDatabase implements ProductDatabaseInterface {
 	private DBConnection dbConnection;
 	
-	private static final String FIND_PRODUCTS_BY_NAME = "select * from Products where ?";
+	private static final String FIND_PRODUCTS_BY_NAME_Q = "select * from Products where ?";
 	private PreparedStatement findProductsByNamePS;
 	
 	private static final String DELETE_Q = "delete from Products where ?";
@@ -24,7 +24,7 @@ public class ProductDatabase implements ProductDatabaseInterface {
 	
 	private void init() throws SQLException {
 		Connection con = DBConnection.getInstance().getConnection();
-		findProductsByNamePS = con.prepareStatement(FIND_PRODUCTS_BY_NAME);
+		findProductsByNamePS = con.prepareStatement(FIND_PRODUCTS_BY_NAME_Q);
 		insertProductPS = con.prepareStatement(INSERT_Q);
 		deleteProductByNamePS = con.prepareStatement(DELETE_Q);
 	}
