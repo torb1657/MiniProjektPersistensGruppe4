@@ -3,7 +3,7 @@ package Controller;
 public class OrderController {
 
 	public OrderController() {
-		// TODO Auto-generated constructor stub
+		System.out.println("Hej Test");
 	}
 
 	public static void main(String[] args) {
