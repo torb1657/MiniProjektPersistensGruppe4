@@ -1,5 +1,5 @@
 package Database;
-//
+
 import Model.Product;
 
 public interface ProductDatabaseInterface {
