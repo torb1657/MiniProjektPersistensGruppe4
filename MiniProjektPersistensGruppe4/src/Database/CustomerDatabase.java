@@ -10,7 +10,7 @@ import java.util.List;
 
 import Model.Customer;
 
-//test
+
 public class CustomerDatabase implements CustomerDatabaseInterface {
 	private DBConnection dbConnection;
    	
