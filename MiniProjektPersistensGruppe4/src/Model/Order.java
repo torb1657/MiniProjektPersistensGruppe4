@@ -6,8 +6,9 @@ public class Order {
 	private LocalDate date;
 	private int amount;
 	private boolean deliveryStatus;
+	private LocalDate deliveryDate;
 	
-	public Order(LocalDate date, int amount, boolean deliveryStatus, String deliveryDate) {
+	public Order(LocalDate date, int amount, boolean deliveryStatus, LocalDate deliveryDate) {
 		super();
 		this.date = date;
 		this.amount = amount;
@@ -39,17 +40,14 @@ public class Order {
 		this.deliveryStatus = deliveryStatus;
 	}
 
-	public String getDeliveryDate() {
+	public LocalDate getDeliveryDate() {
 		return deliveryDate;
 	}
 
-	public void setDeliveryDate(String deliveryDate) {
+	public void setDeliveryDate(LocalDate deliveryDate) {
 		this.deliveryDate = deliveryDate;
 	}
 
-	private String deliveryDate;
+	
 
-	public Order() {
-		
-	}
 }
