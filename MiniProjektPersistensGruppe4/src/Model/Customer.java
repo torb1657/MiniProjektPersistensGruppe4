@@ -2,7 +2,7 @@ package Model;
 
 public class Customer {
 
-	private String name;
+	private String firstName;
 	private String address;
 	private String zipCode;
 	private String city;
@@ -10,10 +10,9 @@ public class Customer {
 	private String lastName;
 	private String middleName;
 	
-	public Customer(String name, String address, String zipCode, String city, String phoneNo, String lastName,
+	public Customer(String firstName, String address, String zipCode, String city, String phoneNo, String lastName,
 			String middleName) {
-		super();
-		this.name = name;
+		this.firstName = firstName;
 		this.address = address;
 		this.zipCode = zipCode;
 		this.city = city;
@@ -22,12 +21,12 @@ public class Customer {
 		this.middleName = middleName;
 	}
 
-	public String getName() {
-		return name;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
 	public String getAddress() {
@@ -78,5 +77,6 @@ public class Customer {
 		this.middleName = middleName;
 	}
 
+	
 
 }

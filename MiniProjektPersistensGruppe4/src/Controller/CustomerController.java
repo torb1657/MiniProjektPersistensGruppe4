@@ -1,23 +1,23 @@
 package Controller;
+import java.sql.SQLException;
 //
 import java.util.List;
 
 import Database.CustomerDatabase;
+import Database.CustomerDatabaseInterface;
 import Model.Customer;
 
 public class CustomerController {
-	private CustomerDatabase customerDatabase;
-	private OrderController orderController;
+	private CustomerDatabaseInterface customerDBINF;
 
-	public CustomerController(CustomerDatabase customerDatabase, OrderController orderController) {
+	public CustomerController() throws SQLException {
 		super();
-		this.customerDatabase = customerDatabase;
-		this.orderController = orderController;
+		customerDBINF = new CustomerDatabase();
 	}
 	
 	
 	public List<Customer> findCustomersByName(String name){
-		return customerDatabase.findCustomersByName(name);
+		return customerDBINF.findCustomersByName(name);
 	}
 
 }

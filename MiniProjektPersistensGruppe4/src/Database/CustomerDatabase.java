@@ -14,7 +14,8 @@ import Model.Customer;
 public class CustomerDatabase implements CustomerDatabaseInterface {
 	private DBConnection dbConnection;
    	
-	private static final String FIND_ALL_CUSTOMERS_BY_NAME_Q = "select * from Customer where fname like ?";
+	private static final String FIND_ALL_CUSTOMERS_BY_NAME_Q = "select c.firstName, c.lastName, c.minit from Customer c where c.firstName like ? or c.lastName like ? or"
+			+ "c.minit like ?";
 	private PreparedStatement findAllCustomersByNamePS;
 	
 	private static final String INSERT = "insert into Customer (phoneNo, lastName, name, middleName, address, zipCode, city) values (?, ?, ?, ?, ?, ?, ?)";
@@ -49,23 +50,24 @@ public class CustomerDatabase implements CustomerDatabaseInterface {
 	
 	public Customer buildObject(ResultSet resultSet) throws SQLException {
 
-			String phoneNo = resultSet.getString("phoneNumber");
 			String lastName = resultSet.getString("lastName");
-			String name = resultSet.getString("firstName");
+			String firstName = resultSet.getString("firstName");
 			String middleName = resultSet.getString("minit");
-			String address = resultSet.getString("address");
-			String zipCode = resultSet.getString("zipCodeCityFK");
-			String city = resultSet.getString("city");
 			
-			Customer customer = new Customer(phoneNo, lastName, name, middleName, address, zipCode, city);
+			Customer customer = new Customer(null, lastName, firstName, middleName, null, null, null);
 
 
 		return customer;
 	}
 	
 	@Override
-	public List<Customer> findCustomersByName(String name) {
+	public List<Customer> findCustomersByName(String searchInput) {
 		try {
+			findAllCustomersByNamePS.setString(1, "%" + searchInput+ "%");
+			findAllCustomersByNamePS.setString(2, "%" + searchInput+ "%");
+			findAllCustomersByNamePS.setString(3, "%" + searchInput+ "%");
+			
+			
 			ResultSet resultSet = findAllCustomersByNamePS.executeQuery();
 			List<Customer> customerList = buildObjects(resultSet);
 			return customerList;
@@ -81,7 +83,7 @@ public class CustomerDatabase implements CustomerDatabaseInterface {
 		try {
 		insertPS.setString(1, customer.getPhoneNo());
 		insertPS.setString(2, customer.getLastName());
-		insertPS.setString(3, customer.getName());
+		insertPS.setString(3, customer.getFirstName());
 		insertPS.setString(4, customer.getMiddleName());
 		insertPS.setString(5, customer.getAddress());
 		insertPS.setString(6, customer.getZipCode());

@@ -15,11 +15,6 @@ public class ProductController {
 		this.productDatabase = productDatabase;
 	}
 
-public Product findProductByName(String name) {
-	return productDatabase.findProductByName(name);
-	
-}
-
 public List<Product> findProductsByName(String name){
 	return productDatabase.findProductsByName(name);
 	
