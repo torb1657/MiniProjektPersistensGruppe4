@@ -11,3 +11,4 @@ public interface ProductDatabaseInterface {
 	Product insertProduct(Product product);
 	Product findProductByName(String name);
 }
+

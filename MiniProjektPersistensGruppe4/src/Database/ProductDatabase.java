@@ -103,7 +103,6 @@ public class ProductDatabase implements ProductDatabaseInterface {
 				e.printStackTrace();
 			}
 			return product;
-		
 	}
 
 	@Override
