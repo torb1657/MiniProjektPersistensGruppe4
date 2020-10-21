@@ -91,7 +91,6 @@ public class ProductDatabase implements ProductDatabaseInterface {
 			insertProductPS.setDouble(4, product.getSalesPrice());
 			insertProductPS.setString(5, product.getCountryOfOrigin());
 			insertProductPS.setInt(6, product.getMinOnStock());
-			//insertProductPS.set(7, product.getProductType());
 
 		}catch(SQLException e) {
 				e.printStackTrace();
@@ -102,11 +101,5 @@ public class ProductDatabase implements ProductDatabaseInterface {
 				e.printStackTrace();
 			}
 			return product;
-	}
-
-	@Override
-	public Product findProductByName(String name) {
-		
-		return null;
 	}
 }
