@@ -1,14 +1,28 @@
 package Controller;
 
+import java.util.List;
+
+import Database.ProductDatabase;
+import Model.Product;
+
 public class ProductController {
+	private OrderController orderController;
+	private ProductDatabase productDatabase;
 
-	public ProductController() {
-		// TODO Auto-generated constructor stub
+	public ProductController(OrderController orderController, ProductDatabase productDatabase) {
+		super();
+		this.orderController = orderController;
+		this.productDatabase = productDatabase;
 	}
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+public Product findProductByName(Product product) {
+	return product;
+	
+}
 
-	}
+public List<Product> findProductsByName(Product product){
+	return null;
+	
+}
 
 }
