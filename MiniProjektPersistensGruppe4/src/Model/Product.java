@@ -8,14 +8,12 @@ public class Product {
 	private int minOnStock;
 	private Product productType;
 	
-public Product(String name, double purchasePrice, double salesPrice, String countryOfOrigin, int minOnStock,
-			Product productType) {
+public Product(String name, double purchasePrice, double salesPrice, String countryOfOrigin, int minOnStock) {
 		this.name = name;
 		this.purchasePrice = purchasePrice;
 		this.salesPrice = salesPrice;
 		this.countryOfOrigin = countryOfOrigin;
 		this.minOnStock = minOnStock;
-		this.productType = productType;
 }
 
 public String getName() {

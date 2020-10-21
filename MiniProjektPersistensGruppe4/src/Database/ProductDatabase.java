@@ -50,7 +50,6 @@ public class ProductDatabase implements ProductDatabaseInterface {
 		double salesPrice = resultSet.getDouble("salesPrice");
 		String countryOfOrigin = resultSet.getString("countryOfOrigin");
 		int minOnStock = resultSet.getInt("minOnStock");
-		Product productType = resultSet.getString("productType");
 		
 		Product product = new Product(name, purchasePrice, salesPrice, countryOfOrigin, minOnStock);
 
