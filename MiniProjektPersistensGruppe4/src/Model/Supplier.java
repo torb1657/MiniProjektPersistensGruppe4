@@ -1,5 +1,5 @@
 package Model;
-
+//
 public class Supplier {
 	private String name;
 	private String address;
@@ -8,7 +8,6 @@ public class Supplier {
 	private String email;
 	
 	public Supplier(String name, String address, String country, String phoneNo, String email) {
-		super();
 		this.name = name;
 		this.address = address;
 		this.country = country;

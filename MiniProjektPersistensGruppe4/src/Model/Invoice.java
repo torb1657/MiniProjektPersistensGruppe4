@@ -1,5 +1,5 @@
 package Model;
-
+//
 public class Invoice {
 
 	private int invoiceNo;
@@ -7,7 +7,6 @@ public class Invoice {
 	private int amount;
 	
 	public Invoice(int invoiceNo, String paymentDate, int amount) {
-		super();
 		this.invoiceNo = invoiceNo;
 		this.paymentDate = paymentDate;
 		this.amount = amount;
@@ -37,7 +36,4 @@ public class Invoice {
 		this.amount = amount;
 	}
 
-	public Invoice() {
-		
-	}
 }

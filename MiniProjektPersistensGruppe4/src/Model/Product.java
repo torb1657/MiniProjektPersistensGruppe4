@@ -1,5 +1,5 @@
 package Model;
-
+//
 public class Product {
 	private String name;
 	private double purchasePrice;
@@ -10,7 +10,6 @@ public class Product {
 	
 public Product(String name, double purchasePrice, double salesPrice, String countryOfOrigin, int minOnStock,
 			Product productType) {
-		super();
 		this.name = name;
 		this.purchasePrice = purchasePrice;
 		this.salesPrice = salesPrice;

@@ -1,11 +1,10 @@
 package Model;
-
+//
 public class OrderLine {
 	private int quantity;
 	private double subTotal;
 
 	public OrderLine(int quantity, double subTotal) {
-		super();
 		this.quantity = quantity;
 		this.subTotal = subTotal;
 	}
@@ -26,7 +25,4 @@ public class OrderLine {
 		this.subTotal = subTotal;
 	}
 
-	public OrderLine() {
-		
-	}
 }

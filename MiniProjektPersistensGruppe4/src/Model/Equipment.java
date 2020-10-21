@@ -1,16 +1,20 @@
 package Model;
+//
+public class Equipment extends Product {
 
-public class Equipment {
-
+	private static int minOnStock;
+	private static Product productType;
 	private String type;
 	private String description;
 	private double rentPrice;
 	
-	public Equipment(String type, String description, double rentPrice) {
-		super();
+	public Equipment(String type, String description, double rentPrice, String name, double purchasePrice, double salesPrice, String countryOfOrigin, int minOnStock,
+			Product productType) {
+		super(countryOfOrigin, salesPrice, salesPrice, countryOfOrigin, minOnStock, productType);
 		this.type = type;
 		this.description = description;
 		this.rentPrice = rentPrice;
+
 	}
 
 	public String getType() {
@@ -37,7 +41,4 @@ public class Equipment {
 		this.rentPrice = rentPrice;
 	}
 
-	public Equipment() {
-		
-	}
 }
