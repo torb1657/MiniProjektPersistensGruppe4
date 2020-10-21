@@ -1,14 +1,32 @@
 package Model;
 
 public class OrderLine {
+	private int quantity;
+	private double subTotal;
+
+	public OrderLine(int quantity, double subTotal) {
+		super();
+		this.quantity = quantity;
+		this.subTotal = subTotal;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	public double getSubTotal() {
+		return subTotal;
+	}
+
+	public void setSubTotal(double subTotal) {
+		this.subTotal = subTotal;
+	}
 
 	public OrderLine() {
-		// TODO Auto-generated constructor stub
+		
 	}
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
 }
