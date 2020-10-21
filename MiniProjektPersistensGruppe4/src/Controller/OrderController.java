@@ -1,6 +1,7 @@
 package Controller;
 
 import Database.OrderDatabase;
+import java.time.LocalDate;
 import Model.Customer;
 import Model.Invoice;
 import Model.Order;
@@ -27,14 +28,11 @@ public class OrderController {
 		
 		return order;
 	}
-	
-	public Order createOrder(Customer customer) {
-		return null;
-		
-	}
+
 	
 	public void setDates(Order order) {
-		
+		order.setDate(LocalDate.now());
+		order.setDeliveryDate(LocalDate.now());
 	}
 	
 	public Invoice persistInvoice(Order order) {

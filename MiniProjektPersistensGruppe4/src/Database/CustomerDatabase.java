@@ -99,7 +99,7 @@ public class CustomerDatabase implements CustomerDatabaseInterface {
 	@Override
 	public void delete(String name) {
 		try {
-			deletePS.setString(1, name);
+			deletePS.setString(3, name);
 			deletePS.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
