@@ -6,7 +6,6 @@ public class Product {
 	private double salesPrice;
 	private String countryOfOrigin;
 	private int minOnStock;
-	private Product productType;
 	
 public Product(String name, double purchasePrice, double salesPrice, String countryOfOrigin, int minOnStock) {
 		this.name = name;
@@ -56,12 +55,6 @@ public void setMinOnStock(int minOnStock) {
 	this.minOnStock = minOnStock;
 }
 
-public Product getProductType() {
-	return productType;
-}
 
-public void setProductType(Product productType) {
-	this.productType = productType;
-}
 }
 

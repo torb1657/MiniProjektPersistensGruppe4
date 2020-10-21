@@ -13,7 +13,7 @@ import Model.Product;
 public class ProductDatabase implements ProductDatabaseInterface {
 	private DBConnection dbConnection;
 	
-	private static final String FIND_PRODUCTS_BY_NAME_Q = "select * from Products where ?";
+	private static final String FIND_PRODUCTS_BY_NAMEINPUT_Q = "select p.productId, p.productName, p.purchasePrice  from Products p where p.productName like ?";
 	private PreparedStatement findProductsByNamePS;
 	
 	private static final String DELETE_Q = "delete from Products where ?";
@@ -28,7 +28,7 @@ public class ProductDatabase implements ProductDatabaseInterface {
 	
 	private void init() throws SQLException {
 		Connection con = DBConnection.getInstance().getConnection();
-		findProductsByNamePS = con.prepareStatement(FIND_PRODUCTS_BY_NAME_Q);
+		findProductsByNamePS = con.prepareStatement(FIND_PRODUCTS_BY_NAMEINPUT_Q);
 		insertProductPS = con.prepareStatement(INSERT_Q);
 		deleteProductByNamePS = con.prepareStatement(DELETE_Q);
 	}
@@ -45,21 +45,21 @@ public class ProductDatabase implements ProductDatabaseInterface {
 	
 	public Product buildObject(ResultSet resultSet) throws SQLException {
 
-		String name = resultSet.getString("name");
+		int productId = resultSet.getInt("productId");
+		String productName = resultSet.getString("productName");
 		double purchasePrice = resultSet.getDouble("purchasePrice");
-		double salesPrice = resultSet.getDouble("salesPrice");
-		String countryOfOrigin = resultSet.getString("countryOfOrigin");
-		int minOnStock = resultSet.getInt("minOnStock");
 		
-		Product product = new Product(name, purchasePrice, salesPrice, countryOfOrigin, minOnStock);
+		
+		Product product = new Product(productId, productName, purchasePrice, null, null, null);
 
 	return product;
 		
 }
 	
 	@Override
-	public List<Product> findProductsByName(String name) {
+	public List<Product> findProductsByName(String nameInput) {
 		try {
+			findProductsByNamePS.setString(1, "%" + nameInput + "%");
 			ResultSet resultSet = findProductsByNamePS.executeQuery();
 			List<Product> productList = buildObjects(resultSet);
 			return productList;

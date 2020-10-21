@@ -9,9 +9,11 @@ public class Customer {
 	private String phoneNo;
 	private String lastName;
 	private String middleName;
+	private int customerId;
 	
-	public Customer(String firstName, String address, String zipCode, String city, String phoneNo, String lastName,
+	public Customer(int customerId, String firstName, String address, String zipCode, String city, String phoneNo, String lastName,
 			String middleName) {
+		this.customerId = customerId;
 		this.firstName = firstName;
 		this.address = address;
 		this.zipCode = zipCode;
@@ -75,6 +77,10 @@ public class Customer {
 
 	public void setMiddleName(String middleName) {
 		this.middleName = middleName;
+	}
+
+	public int getCustomerId() {
+		return customerId;
 	}
 
 	

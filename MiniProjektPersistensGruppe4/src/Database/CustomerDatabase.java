@@ -14,7 +14,7 @@ import Model.Customer;
 public class CustomerDatabase implements CustomerDatabaseInterface {
 	private DBConnection dbConnection;
    	
-	private static final String FIND_ALL_CUSTOMERS_BY_NAME_Q = "select c.firstName, c.lastName, c.minit from Customer c where c.firstName like ? or c.lastName like ? or"
+	private static final String FIND_ALL_CUSTOMERS_BY_NAME_Q = "select c.customerId, c.firstName, c.lastName, c.minit from Customer c where c.firstName like ? or c.lastName like ? or"
 			+ "c.minit like ?";
 	private PreparedStatement findAllCustomersByNamePS;
 	
@@ -49,12 +49,13 @@ public class CustomerDatabase implements CustomerDatabaseInterface {
 	}
 	
 	public Customer buildObject(ResultSet resultSet) throws SQLException {
-
+		
+			int customerId = resultSet.getInt("customerId");
 			String lastName = resultSet.getString("lastName");
 			String firstName = resultSet.getString("firstName");
 			String middleName = resultSet.getString("minit");
 			
-			Customer customer = new Customer(null, lastName, firstName, middleName, null, null, null);
+			Customer customer = new Customer(customerId ,null, lastName, firstName, middleName, null, null, null);
 
 
 		return customer;

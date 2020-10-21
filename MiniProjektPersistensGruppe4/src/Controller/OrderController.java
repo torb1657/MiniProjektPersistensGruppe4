@@ -21,11 +21,10 @@ public class OrderController {
 		this.productController = productController;
 		this.orderDatabase = orderDatabase;
 		this.customerController = customerController;
-		System.out.println("hej torben din bøsse");
 	}
 
 	public Order endOrder(Order order) {
-		
+		//
 		
 		return order;
 	}
