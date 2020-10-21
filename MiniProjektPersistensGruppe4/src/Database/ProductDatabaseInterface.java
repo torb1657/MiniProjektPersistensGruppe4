@@ -1,14 +1,10 @@
 package Database;
 
-public class ProductDatabaseInterface {
+import Model.Product;
 
-	public ProductDatabaseInterface() {
-		// TODO Auto-generated constructor stub
-	}
+public interface ProductDatabaseInterface {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
+	Product findProductByName(Product product);
+	Product deleteProductByName(String name);
+	Product insertProduct(Product product);
 }
