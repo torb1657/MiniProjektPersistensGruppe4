@@ -1,5 +1,5 @@
 package Model;
-
+//
 public class Supplier {
 	private String name;
 	private String address;

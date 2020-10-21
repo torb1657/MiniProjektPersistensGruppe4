@@ -1,5 +1,5 @@
 package Model;
-
+//
 public class Equipment extends Product {
 
 	private static int minOnStock;

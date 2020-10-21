@@ -1,5 +1,5 @@
 package Model;
-
+//
 public class Clothing extends Product {
 
 	private String size;

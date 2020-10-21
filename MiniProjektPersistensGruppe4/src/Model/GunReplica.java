@@ -1,5 +1,5 @@
 package Model;
-
+//
 public class GunReplica extends Product {
 
 	private static double purchasePrice;
