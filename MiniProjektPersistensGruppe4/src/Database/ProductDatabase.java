@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import Model.Customer;
@@ -32,18 +33,29 @@ public class ProductDatabase implements ProductDatabaseInterface {
 		deleteProductByNamePS = con.prepareStatement(DELETE_Q);
 	}
 
-	public Customer buildObject(ResultSet resultSet) throws SQLException {
+	public List<Product> buildObjects(ResultSet resultSet) throws SQLException {
+		List<Product> productList = new ArrayList<>();
+		
+		while(resultSet.next()) {
+		Product product = buildObject(resultSet);
+		productList.add(product);
+		}
+		return productList;
+	}
+	
+	public Product buildObject(ResultSet resultSet) throws SQLException {
 
 		String name = resultSet.getString("name");
 		double purchasePrice = resultSet.getDouble("purchasePrice");
 		double salesPrice = resultSet.getDouble("salesPrice");
 		String countryOfOrigin = resultSet.getString("countryOfOrigin");
 		int minOnStock = resultSet.getInt("minOnStock");
-		//Product productType = resultSet.getString("productType");
+		Product productType = resultSet.getString("productType");
 		
 		Product product = new Product(name, purchasePrice, salesPrice, countryOfOrigin, minOnStock);
 
 	return product;
+		
 }
 	
 	@Override
@@ -94,4 +106,9 @@ public class ProductDatabase implements ProductDatabaseInterface {
 		
 	}
 
+	@Override
+	public Product findProductByName(String name) {
+		
+		return null;
+	}
 }
