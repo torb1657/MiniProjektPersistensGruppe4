@@ -17,10 +17,7 @@ public class CustomerController {
 	
 	
 	public List<Customer> findCustomersByName(String name){
-		
-		
-		
-		return null;
+		return customerDatabase.findCustomersByName(name);
 	}
 
 }
