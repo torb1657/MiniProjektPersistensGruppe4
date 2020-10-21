@@ -10,5 +10,5 @@ public interface CustomerDatabaseInterface {
 
 	List<Customer> findCustomersByName(String name);
 	Customer insert(Customer customer);
-	Customer delete(String name);
+	void delete(String name);
 }

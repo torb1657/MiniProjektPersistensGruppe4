@@ -7,14 +7,19 @@ public class Customer {
 	private String zipCode;
 	private String city;
 	private String phoneNo;
+	private String lastName;
+	private String middleName;
 	
-	public Customer(String name, String address, String zipCode, String city, String phoneNo) {
+	public Customer(String name, String address, String zipCode, String city, String phoneNo, String lastName,
+			String middleName) {
 		super();
 		this.name = name;
 		this.address = address;
 		this.zipCode = zipCode;
 		this.city = city;
 		this.phoneNo = phoneNo;
+		this.lastName = lastName;
+		this.middleName = middleName;
 	}
 
 	public String getName() {
@@ -57,7 +62,21 @@ public class Customer {
 		this.phoneNo = phoneNo;
 	}
 
-	public Customer() {
-		
+	public String getLastName() {
+		return lastName;
 	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getMiddleName() {
+		return middleName;
+	}
+
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
+	}
+
+
 }
