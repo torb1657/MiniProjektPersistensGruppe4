@@ -2,8 +2,11 @@ package Database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
+import Model.Customer;
 import Model.Product;
 
 public class ProductDatabase implements ProductDatabaseInterface {
@@ -29,22 +32,66 @@ public class ProductDatabase implements ProductDatabaseInterface {
 		deleteProductByNamePS = con.prepareStatement(DELETE_Q);
 	}
 
-	@Override
-	public Product findProductByName(Product product) {
+	public Customer buildObject(ResultSet resultSet) throws SQLException {
 
+		String name = resultSet.getString("name");
+		double purchasePrice = resultSet.getDouble("purchasePrice");
+		double salesPrice = resultSet.getDouble("salesPrice");
+		String countryOfOrigin = resultSet.getString("countryOfOrigin");
+		int minOnStock = resultSet.getInt("minOnStock");
+		//Product productType = resultSet.getString("productType");
+		
+		Product product = new Product(name, purchasePrice, salesPrice, countryOfOrigin, minOnStock);
+
+	return product;
+}
+	
+	@Override
+	public List<Product> findProductsByName(String name) {
+		try {
+			ResultSet resultSet = findProductsByNamePS.executeQuery();
+			List<Product> productList = buildObjects(resultSet);
+			return productList;
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
 		return null;
 	}
 
 	@Override
-	public Product deleteProductByName(String name) {
-
-		return null;
+	public void deleteProductByName(String name) {
+		try {
+			deleteProductByNamePS.setString(1, name);
+			deleteProductByNamePS.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
+		
+	
 
 	@Override
 	public Product insertProduct(Product product) {
+		try {
+			insertProductPS.setString(2, product.getName());
+			insertProductPS.setDouble(3, product.getPurchasePrice());
+			insertProductPS.setDouble(4, product.getSalesPrice());
+			insertProductPS.setString(5, product.getCountryOfOrigin());
+			insertProductPS.setInt(6, product.getMinOnStock());
+			//insertProductPS.set(7, product.getProductType());
+
+		}catch(SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				insertProductPS.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return product;
 		
-		return null;
 	}
 
 }
