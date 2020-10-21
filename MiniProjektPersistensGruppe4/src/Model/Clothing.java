@@ -1,17 +1,14 @@
 package Model;
 
-public class Clothing {
+public class Clothing extends Product {
 
 	private String size;
 	private String colour;
 	private String brand;
-	
-	public Clothing() {
-		
-	}
 
-	public Clothing(String size, String colour, String brand) {
-		super();
+	public Clothing(String size, String colour, String brand, String name, double purchasePrice, double salesPrice, String countryOfOrigin, int minOnStock,
+			Product productType) {
+		super(countryOfOrigin, salesPrice, salesPrice, countryOfOrigin, minOnStock, productType);
 		this.size = size;
 		this.colour = colour;
 		this.brand = brand;

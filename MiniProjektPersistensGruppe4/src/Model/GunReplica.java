@@ -1,12 +1,16 @@
 package Model;
 
-public class GunReplica {
+public class GunReplica extends Product {
 
+	private static double purchasePrice;
+	private static int minOnStock;
+	private static Product productType;
 	private String calibre;
 	private String material;
 	
-	public GunReplica(String calibre, String material) {
-		super();
+	public GunReplica(String calibre, String material, String name, double purchasePrice, double salesPrice, String countryOfOrigin, int minOnStock,
+			Product productType) {
+		super(countryOfOrigin, salesPrice, salesPrice, countryOfOrigin, minOnStock, productType);
 		this.calibre = calibre;
 		this.material = material;
 	}
@@ -27,7 +31,4 @@ public class GunReplica {
 		this.material = material;
 	}
 
-	public GunReplica() {
-		
-	}
 }

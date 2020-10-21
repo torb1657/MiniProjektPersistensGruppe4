@@ -9,7 +9,6 @@ public class Order {
 	private LocalDate deliveryDate;
 	
 	public Order(LocalDate date, int amount, boolean deliveryStatus, LocalDate deliveryDate) {
-		super();
 		this.date = date;
 		this.amount = amount;
 		this.deliveryStatus = deliveryStatus;
