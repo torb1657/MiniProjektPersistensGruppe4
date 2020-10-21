@@ -1,14 +1,14 @@
 package Database;
 
-public class CustomerDatabaseInterface {
+import java.util.List;
 
-	public CustomerDatabaseInterface() {
-		// TODO Auto-generated constructor stub
-	}
+import Model.Customer;
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
-	}
 
+public interface CustomerDatabaseInterface {
+
+	List<Customer> findCustomersByName(String name);
+	Customer insert(Customer customer);
+	Customer delete(String name);
 }

@@ -1,14 +1,26 @@
 package Controller;
 
+import java.util.List;
+
+import Database.CustomerDatabase;
+import Model.Customer;
+
 public class CustomerController {
+	private CustomerDatabase customerDatabase;
+	private OrderController orderController;
 
-	public CustomerController() {
-		// TODO Auto-generated constructor stub
+	public CustomerController(CustomerDatabase customerDatabase, OrderController orderController) {
+		super();
+		this.customerDatabase = customerDatabase;
+		this.orderController = orderController;
 	}
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	
+	
+	public List<Customer> findCustomersByName(String name){
+		
+		
+		
+		return null;
 	}
 
 }
