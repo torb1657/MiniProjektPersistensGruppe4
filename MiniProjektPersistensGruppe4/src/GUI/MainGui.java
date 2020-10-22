@@ -6,21 +6,33 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Controller.CustomerController;
+import Model.Customer;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JList;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
 import javax.swing.JScrollBar;
+import javax.swing.JTable;
 
 public class MainGui extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextField textField_1;
+	private CustomerController customerController;
+	private JTable table;
+	private DefaultListModel<Customer> listRepresentation;
+	private JList<Customer> list; 
 
 	/**
 	 * Launch the application.
@@ -40,14 +52,21 @@ public class MainGui extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws SQLException 
 	 */
-	public MainGui() {
+	public MainGui() throws SQLException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 553, 395);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		listRepresentation = new DefaultListModel<>();
+		
+		customerController = new CustomerController();
+		
+		list = new JList<>(listRepresentation);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBounds(0, 0, 535, 348);
@@ -66,17 +85,22 @@ public class MainGui extends JFrame {
 		scrollPane.setBounds(0, 0, 334, 122);
 		panel_2.add(scrollPane);
 		
-		JList list = new JList();
-		scrollPane.setViewportView(list);
-		
 		JLabel lblNewLabel = new JLabel("Navn                            Addresse                    Tlf.");
 		scrollPane.setColumnHeaderView(lblNewLabel);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
 		
 		JButton btnNewButton = new JButton("Start Ordre");
 		btnNewButton.setBounds(406, 264, 97, 25);
 		startOrderPanel.add(btnNewButton);
 		
 		textField = new JTextField();
+		textField.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		textField.setBounds(12, 23, 116, 22);
 		startOrderPanel.add(textField);
 		textField.setColumns(10);
@@ -84,6 +108,15 @@ public class MainGui extends JFrame {
 		JLabel lblNewLabel_1 = new JLabel("S\u00F8g Kunde");
 		lblNewLabel_1.setBounds(12, 0, 116, 16);
 		startOrderPanel.add(lblNewLabel_1);
+		
+		JButton btnNewButton_5 = new JButton("S\u00F8g!");
+		btnNewButton_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnSearchClicked(e);
+			}
+		});
+		btnNewButton_5.setBounds(140, 22, 97, 25);
+		startOrderPanel.add(btnNewButton_5);
 		
 		JPanel buyWarePanel = new JPanel();
 		tabbedPane.addTab("K\u00F8b varer", null, buyWarePanel, null);
@@ -151,5 +184,16 @@ public class MainGui extends JFrame {
 		JButton btnNewButton_4 = new JButton("Afbryd");
 		btnNewButton_4.setBounds(421, 285, 97, 25);
 		buyWarePanel.add(btnNewButton_4);
+		
+		
+		}
+	private void btnSearchClicked(ActionEvent e) {
+		List<Customer> customers = customerController.findCustomersByName(textField.getText());
+		
+		for(Customer customer : customers)
+		{
+			listRepresentation.addElement(customer);
+		}
+
 	}
 }
