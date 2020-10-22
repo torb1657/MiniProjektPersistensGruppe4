@@ -56,7 +56,7 @@ public class CustomerDatabase implements CustomerDatabaseInterface {
 			String middleName = resultSet.getString("minit");
 			
 			Customer customer = new Customer(customerId ,null, lastName, firstName, middleName, null, null, null);
-
+//
 
 		return customer;
 	}

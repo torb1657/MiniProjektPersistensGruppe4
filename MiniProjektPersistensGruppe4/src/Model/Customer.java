@@ -10,7 +10,7 @@ public class Customer {
 	private String lastName;
 	private String middleName;
 	private int customerId;
-	
+	//
 	public Customer(int customerId, String firstName, String address, String zipCode, String city, String phoneNo, String lastName,
 			String middleName) {
 		this.customerId = customerId;

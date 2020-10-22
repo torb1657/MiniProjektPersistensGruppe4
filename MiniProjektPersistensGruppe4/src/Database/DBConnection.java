@@ -18,7 +18,7 @@ public class DBConnection {
 	private static final int    serverPort = 1433;
 	private static final String userName = "dmaa0220_1077252";
 	private static final String password = "Password1!";
-
+//
 	private DBConnection() {
 		String connectionString = String.format("jdbc:sqlserver://%s:%d;databaseName=%s;user=%s;password=%s", 
 				serverAddress, serverPort, dbName, userName, password);

@@ -65,7 +65,7 @@ public class OrderDatabase implements OrderDatabaseInterface {
 
 	public Order createOrder(Order order) throws SQLException {
 		int orderId = persistTotalOrder(order);
-		
+		// 
 		/*createOrderPS.setDate(1, Date.valueOf(order.getDate()));
 		createOrderPS.setDate(2, Date.valueOf(order.getDeliveryDate()));
 		createOrderPS.setDouble(3, order.getAmount());

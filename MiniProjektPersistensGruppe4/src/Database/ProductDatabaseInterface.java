@@ -10,4 +10,4 @@ public interface ProductDatabaseInterface {
 	void deleteProductByName(String name);
 	Product insertProduct(Product product);
 }
-
+//

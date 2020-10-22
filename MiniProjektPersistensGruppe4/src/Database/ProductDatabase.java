@@ -14,7 +14,7 @@ public class ProductDatabase implements ProductDatabaseInterface {
 	private DBConnection dbConnection;
 
 	private static final String FIND_PRODUCTS_BY_NAMEINPUT_Q = "select p.productId, p.productName, p.purchasePrice  from Products p where p.productName like ?";
-	private PreparedStatement findProductsByNamePS;
+	private PreparedStatement findProductsByNameInputPS;
 
 	private static final String DELETE_Q = "delete from Products where ?";
 	private PreparedStatement deleteProductByNamePS;
@@ -28,7 +28,7 @@ public class ProductDatabase implements ProductDatabaseInterface {
 
 	private void init() throws SQLException {
 		Connection con = DBConnection.getInstance().getConnection();
-		findProductsByNamePS = con.prepareStatement(FIND_PRODUCTS_BY_NAMEINPUT_Q);
+		findProductsByNameInputPS = con.prepareStatement(FIND_PRODUCTS_BY_NAMEINPUT_Q);
 		insertProductPS = con.prepareStatement(INSERT_Q);
 		deleteProductByNamePS = con.prepareStatement(DELETE_Q);
 	}
@@ -58,8 +58,8 @@ public class ProductDatabase implements ProductDatabaseInterface {
 	@Override
 	public List<Product> findProductsByName(String nameInput) {
 		try {
-			findProductsByNamePS.setString(1, "%" + nameInput + "%");
-			ResultSet resultSet = findProductsByNamePS.executeQuery();
+			findProductsByNameInputPS.setString(1, "%" + nameInput + "%");
+			ResultSet resultSet = findProductsByNameInputPS.executeQuery();
 			List<Product> productList = buildObjects(resultSet);
 			return productList;
 		} catch (SQLException e) {

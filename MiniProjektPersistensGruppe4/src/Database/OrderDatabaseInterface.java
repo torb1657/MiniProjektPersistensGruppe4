@@ -5,5 +5,5 @@ import Model.Order;
 
 public interface OrderDatabaseInterface {
 
-	
+	//
 }

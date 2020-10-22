@@ -62,6 +62,6 @@ public class Product {
 	public int getProductId() {
 		return productId;
 	}
-	
+	//
 
 }

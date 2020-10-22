@@ -60,7 +60,7 @@ public class Order {
 		this.customer = customer;
 	}
 
-	public List<OrderLine> getOrderLines() {
+	public List<OrderLine> getOrderLine() {
 		return orderLines;
 	}
 	public void createInvoice() {//ekstra til invoice skal i parameterene {
