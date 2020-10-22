@@ -63,24 +63,30 @@ public class OrderDatabase implements OrderDatabaseInterface {
 
 	}
 
+	// When ending order, all the values chosen will be applied to a new order
 	public Order createOrder(Order order) throws SQLException {
 		int orderId = persistTotalOrder(order);
-		// 
-		/*createOrderPS.setDate(1, Date.valueOf(order.getDate()));
+		//
+		createOrderPS.setDate(1, Date.valueOf(order.getDate()));
 		createOrderPS.setDate(2, Date.valueOf(order.getDeliveryDate()));
 		createOrderPS.setDouble(3, order.getAmount());
 		createOrderPS.setBoolean(4, order.isDeliveryStatus());
 		createOrderPS.setInt(5, order.getCustomer().getCustomerId());
+
+		
 		for(OrderLine orderLine: order.getOrderLine()) {
 			
-			 
-			
-		}*/
+			persistOrderLine(orderLine, orderId, orderLine.getProduct().getProductId());
+			/*createOrderPS.setInt(6, orderLine.getQuantity());
+			createOrderPS.setDouble(7, orderLine.getSubTotal());
+			createOrderPS.setInt(8, orderLine.getProduct().getProductId());
+			*/
+		}
 		
-		return getOrder(orderId);
 		
 		
-		
+		createOrderPS.executeUpdate();
+
 		// der skal joines ordre, orderliner og produkt (invoice)
 		// det jeg skal have retur ved den join er linjer svarende til antal ordreliner
 		// på hver linje er der en union af ordre information, produktets information og
@@ -89,8 +95,17 @@ public class OrderDatabase implements OrderDatabaseInterface {
 		// hedder noget
 		// select o.name, o.:::, ol., p.name.. from order as o, orderline as ol, product
 		// as p, where o.orderId = orderLineiDFK og ordelineIdFK = productId
+		return getOrder(orderId);
+	}
+	
+	public OrderLine getOrderLineDetails(OrderLine orderLine)
+	{
+		
+		
+		return orderLine;
 	}
 
+	// When pressing start order
 	private int persistOrder(Order order) throws SQLException {
 		persistOrderPS.setDate(1, Date.valueOf(order.getDate()));
 		persistOrderPS.setDate(2, Date.valueOf(order.getDeliveryDate()));
