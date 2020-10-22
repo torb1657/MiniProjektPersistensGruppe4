@@ -12,20 +12,20 @@ import Model.Product;
 
 public class ProductDatabase implements ProductDatabaseInterface {
 	private DBConnection dbConnection;
-	
+
 	private static final String FIND_PRODUCTS_BY_NAMEINPUT_Q = "select p.productId, p.productName, p.purchasePrice  from Products p where p.productName like ?";
 	private PreparedStatement findProductsByNamePS;
-	
+
 	private static final String DELETE_Q = "delete from Products where ?";
 	private PreparedStatement deleteProductByNamePS;
-	
+
 	private static final String INSERT_Q = "insert into Products where ?";
 	private PreparedStatement insertProductPS;
-	
+
 	public ProductDatabase() throws SQLException {
 		init();
 	}
-	
+
 	private void init() throws SQLException {
 		Connection con = DBConnection.getInstance().getConnection();
 		findProductsByNamePS = con.prepareStatement(FIND_PRODUCTS_BY_NAMEINPUT_Q);
@@ -35,27 +35,26 @@ public class ProductDatabase implements ProductDatabaseInterface {
 
 	public List<Product> buildObjects(ResultSet resultSet) throws SQLException {
 		List<Product> productList = new ArrayList<>();
-		
-		while(resultSet.next()) {
-		Product product = buildObject(resultSet);
-		productList.add(product);
+
+		while (resultSet.next()) {
+			Product product = buildObject(resultSet);
+			productList.add(product);
 		}
 		return productList;
 	}
-	
+
 	public Product buildObject(ResultSet resultSet) throws SQLException {
 
 		int productId = resultSet.getInt("productId");
 		String productName = resultSet.getString("productName");
 		double purchasePrice = resultSet.getDouble("purchasePrice");
-		
-		
-		Product product = new Product(productId, productName, purchasePrice, null, null, null);
 
-	return product;
+		Product product = new Product(productId, productName, purchasePrice, null, null, null);
 		
-}
-	
+		return product;
+
+	}
+
 	@Override
 	public List<Product> findProductsByName(String nameInput) {
 		try {
@@ -64,7 +63,7 @@ public class ProductDatabase implements ProductDatabaseInterface {
 			List<Product> productList = buildObjects(resultSet);
 			return productList;
 		} catch (SQLException e) {
-			
+
 			e.printStackTrace();
 		}
 		return null;
@@ -78,10 +77,8 @@ public class ProductDatabase implements ProductDatabaseInterface {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-		
-	
 
 	@Override
 	public Product insertProduct(Product product) {
@@ -92,14 +89,14 @@ public class ProductDatabase implements ProductDatabaseInterface {
 			insertProductPS.setString(5, product.getCountryOfOrigin());
 			insertProductPS.setInt(6, product.getMinOnStock());
 
-		}catch(SQLException e) {
-				e.printStackTrace();
-			}
-			try {
-				insertProductPS.executeUpdate();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			return product;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			insertProductPS.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return product;
 	}
 }
