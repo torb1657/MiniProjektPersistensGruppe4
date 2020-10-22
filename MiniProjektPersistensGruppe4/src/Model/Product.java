@@ -6,13 +6,15 @@ public class Product {
 	private double salesPrice;
 	private String countryOfOrigin;
 	private int minOnStock;
+	private int productId;
 	
-public Product(String name, double purchasePrice, double salesPrice, String countryOfOrigin, int minOnStock) {
+public Product(String name, double purchasePrice, double salesPrice, String countryOfOrigin, int minOnStock, int productId) {
 		this.name = name;
 		this.purchasePrice = purchasePrice;
 		this.salesPrice = salesPrice;
 		this.countryOfOrigin = countryOfOrigin;
 		this.minOnStock = minOnStock;
+		this.productId = productId;
 }
 
 public String getName() {
