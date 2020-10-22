@@ -13,7 +13,7 @@ import Model.Product;
 public class ProductDatabase implements ProductDatabaseInterface {
 	private DBConnection dbConnection;
 
-	private static final String FIND_PRODUCTS_BY_NAMEINPUT_Q = "select p.productId, p.productName, p.purchasePrice  from Products p where p.productName like ?";
+	private static final String FIND_PRODUCTS_BY_NAMEINPUT_Q = "select p.productId, p.productName, p.purchasePrice  from Product p where p.productName like ?";
 	private PreparedStatement findProductsByNameInputPS;
 
 	private static final String DELETE_Q = "delete from Products where ?";

@@ -1,5 +1,5 @@
 package Model;
-
+//
 public class OrderLine {
 	private int quantity;
 	private double subTotal;

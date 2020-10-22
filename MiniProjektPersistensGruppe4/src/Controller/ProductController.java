@@ -1,22 +1,21 @@
 package Controller;
+import java.sql.SQLException;
 //
 import java.util.List;
 
 import Database.ProductDatabase;
+import Database.ProductDatabaseInterface;
 import Model.Product;
 
 public class ProductController {
-	private OrderController orderController;
-	private ProductDatabase productDatabase;
+	private ProductDatabaseInterface productDatabaseIF;
 
-	public ProductController(OrderController orderController, ProductDatabase productDatabase) {
-		super();
-		this.orderController = orderController;
-		this.productDatabase = productDatabase;
+	public ProductController() throws SQLException {
+		this.productDatabaseIF = new ProductDatabase();
 	}
 
 public List<Product> findProductsByName(String name){
-	return productDatabase.findProductsByName(name);
+	return productDatabaseIF.findProductsByName(name);
 	
 }
 

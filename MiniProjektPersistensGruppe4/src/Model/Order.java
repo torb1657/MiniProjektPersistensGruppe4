@@ -1,6 +1,7 @@
 package Model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
@@ -18,6 +19,7 @@ public class Order {
 		this.amount = amount;
 		this.deliveryStatus = deliveryStatus;
 		this.deliveryDate = deliveryDate;
+		orderLines = new ArrayList<>();
 	}
 
 	public LocalDate getDate() {
@@ -62,6 +64,18 @@ public class Order {
 
 	public List<OrderLine> getOrderLine() {
 		return orderLines;
+	}
+	
+	public void createOrderLine(int quantity, Product product) {
+		double subTotal = product.getPurchasePrice() * quantity;
+		OrderLine orderLine = new OrderLine(quantity, subTotal, product);
+		orderLines.add(orderLine);
+		
+	}
+	
+	public void addOrderLine(OrderLine orderLine) {
+		orderLines.add(orderLine);
+		
 	}
 	public void createInvoice() {//ekstra til invoice skal i parameterene {
 		 invoice = new Invoice(1, "123", 2); // invoice skal creates og måske kaldes med nogle parameter (det meste ligger inde i orderen)

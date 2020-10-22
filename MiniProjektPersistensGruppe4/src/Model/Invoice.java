@@ -1,7 +1,7 @@
 package Model;
 
 public class Invoice {
-
+//
 	private int invoiceNo;
 	private String paymentDate;
 	private int amount;

@@ -6,20 +6,25 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
+import Model.Customer;
 import Model.Order;
 import Model.OrderLine;
+import Model.Product;
 
 public class OrderDatabase implements OrderDatabaseInterface {
-
-	private static final String PERSIST_ORDER_Q = "insert into order(orderDate, deliveryDate, orderAmount, customerIdFK) VALUES (?, ?, ?, ?)";
+//
+	private static final String PERSIST_ORDER_Q = "insert into order (orderDate, deliveryDate, orderAmount, customerIdFK) VALUES (?, ?, ?, ?)";
 	private PreparedStatement persistOrderPS;
-	private static final String PERSIST_ORDERLINE_Q = "insert into orderLine(quantity, subTotalPrice, productIdFK, orderIdFK) VALUES (?, ?, ?, ?)";
+	private static final String PERSIST_ORDERLINE_Q = "insert into orderLine (quantity, subTotalPrice, productIdFK, orderIdFK) VALUES (?, ?, ?, ?)";
 	private PreparedStatement persistOrderLinePS;
-	private static final String CREATE_ORDER_Q = "select o.orderDate, o.deliveryDate, o.orderAmount, o.deliveryStatus, o.customerIdFK, ol.quantity, ol.subTotalPrice, ol.productIdFK\r\n" + 
-			", ol.orderIdFK, p.name, p.purchasePrice, p.salesPrice, p.countryOfOrigin, p.minStock, p.productType\r\n" + 
-			"from order_ as o, orderline as ol, product as p where o.orderId = ol.orderIdFK and ol.productIdFK = p.productId";
-	private PreparedStatement createOrderPS;
+	private static final String GET_ORDER_Q = "select z.city, c.firstName, c.lastName, c.minit, c.phoneNumber, c.zipCodeCityFK, c.customerAddress, o.orderDate, o.orderAmount, o.deliveryStatus, o.deliveryDate, o.customerIdFK" + 
+			" , ol.quantity, ol.subTotalPrice, ol.productIdFK, ol.orderIdFK, p.productName, p.purchasePrice, p.salesPrice, p.countryOfOrigin, p.minStock from orderTable as o, orderLine as ol, product as p, Customer as c, zipCode_city as z where z.zipCodeCity = c.zipCodeCityFK and c.customerId = o.customerIdFK" + 
+			" and o.orderId = ol.orderIdFK and ol.productIdFK = p.productId and o.orderId = ?";
+	private PreparedStatement getOrderPS;
 	
 	// enten joiner vi i sql kaldet, eller kalder hver for sig
 	// først finde ordren, orderLiner og deri produkterne deri (mange gange eller en
@@ -34,7 +39,7 @@ public class OrderDatabase implements OrderDatabaseInterface {
 		Connection con = DBConnection.getInstance().getConnection();
 		persistOrderPS = con.prepareStatement(PERSIST_ORDER_Q, Statement.RETURN_GENERATED_KEYS);
 		persistOrderLinePS = con.prepareStatement(PERSIST_ORDERLINE_Q);
-		createOrderPS = con.prepareStatement(CREATE_ORDER_Q);
+		getOrderPS = con.prepareStatement(GET_ORDER_Q);
 	}
 
 	private int persistTotalOrder(Order order) {
@@ -58,35 +63,19 @@ public class OrderDatabase implements OrderDatabaseInterface {
 		}
 	}
 
-	private Order getOrder(int id) {
-		return null;
+	public Order getOrder(int id) throws SQLException {
+		getOrderPS.setInt(1, id);
+		ResultSet resultSet = getOrderPS.executeQuery();
+		return buildOrder(resultSet);
 
 	}
 
-	// When ending order, all the values chosen will be applied to a new order
 	public Order createOrder(Order order) throws SQLException {
 		int orderId = persistTotalOrder(order);
-		//
-		createOrderPS.setDate(1, Date.valueOf(order.getDate()));
-		createOrderPS.setDate(2, Date.valueOf(order.getDeliveryDate()));
-		createOrderPS.setDouble(3, order.getAmount());
-		createOrderPS.setBoolean(4, order.isDeliveryStatus());
-		createOrderPS.setInt(5, order.getCustomer().getCustomerId());
-
-		
-		for(OrderLine orderLine: order.getOrderLine()) {
-			
-			persistOrderLine(orderLine, orderId, orderLine.getProduct().getProductId());
-			/*createOrderPS.setInt(6, orderLine.getQuantity());
-			createOrderPS.setDouble(7, orderLine.getSubTotal());
-			createOrderPS.setInt(8, orderLine.getProduct().getProductId());
-			*/
-		}
+		return getOrder(orderId);
 		
 		
 		
-		createOrderPS.executeUpdate();
-
 		// der skal joines ordre, orderliner og produkt (invoice)
 		// det jeg skal have retur ved den join er linjer svarende til antal ordreliner
 		// på hver linje er der en union af ordre information, produktets information og
@@ -95,17 +84,8 @@ public class OrderDatabase implements OrderDatabaseInterface {
 		// hedder noget
 		// select o.name, o.:::, ol., p.name.. from order as o, orderline as ol, product
 		// as p, where o.orderId = orderLineiDFK og ordelineIdFK = productId
-		return getOrder(orderId);
-	}
-	
-	public OrderLine getOrderLineDetails(OrderLine orderLine)
-	{
-		
-		
-		return orderLine;
 	}
 
-	// When pressing start order
 	private int persistOrder(Order order) throws SQLException {
 		persistOrderPS.setDate(1, Date.valueOf(order.getDate()));
 		persistOrderPS.setDate(2, Date.valueOf(order.getDeliveryDate()));
@@ -117,6 +97,7 @@ public class OrderDatabase implements OrderDatabaseInterface {
 		// databasen) orderId)
 
 		ResultSet resultSet = persistOrderPS.getGeneratedKeys();
+		resultSet.next();
 		return resultSet.getInt(1);
 
 	}
@@ -127,12 +108,56 @@ public class OrderDatabase implements OrderDatabaseInterface {
 		persistOrderLinePS.setInt(3, productId);
 		persistOrderLinePS.setInt(4, orderId);
 		persistOrderLinePS.execute();
+		
 
 	}
-
-	public Order endOrder(Order order) {
-
-		return null;
+	
+	public Order buildOrder(ResultSet resultSet) throws SQLException{
+		Order order = null;
+		Customer customer = null;
+		Map<Integer, Product> productsMap = new HashMap<>();
+		
+		while(resultSet.next()) {
+			String city = resultSet.getString("city");
+			String firstName = resultSet.getString("firstName");
+			String lastName = resultSet.getString("lastName");
+			String minit = resultSet.getString("minit");
+			String phoneNumber = resultSet.getString("phoneNumber");
+			String zipCodeCityFK = resultSet.getString("zipCodeCityFK");
+			String customerAddress = resultSet.getString("customerAddress");
+			LocalDate orderDate = resultSet.getDate("orderDate").toLocalDate();
+			double orderAmount = resultSet.getDouble("orderAmount");
+			boolean deliveryStatus = resultSet.getBoolean("deliveryStatus");
+			LocalDate deliveryDate = resultSet.getDate("deliveryDate").toLocalDate();
+			int customerIdFK = resultSet.getInt("customerIdFK");
+			int quantity = resultSet.getInt("quantity");
+			double subTotalPrice = resultSet.getDouble("subTotalPrice");
+			int productIdFK = resultSet.getInt("productIdFK");
+			int orderIdFK = resultSet.getInt("orderIdFK");
+			String productName = resultSet.getString("productName");
+			double purchasePrice = resultSet.getDouble("purchasePrice");
+			double salesPrice = resultSet.getDouble("salesPrice");
+			String countryOfOrigin = resultSet.getString("countryOfOrigin");
+			int minStock = resultSet.getInt("minStock");
+			
+			if(customer == null) {
+				customer = new Customer(customerIdFK, firstName,customerAddress,zipCodeCityFK, city, phoneNumber, lastName, minit);
+				
+			}
+			if(order == null) {
+				order = new Order(orderDate, orderAmount, deliveryStatus, deliveryDate, customer);
+			}
+			if(!productsMap.containsKey(productIdFK)) {
+				Product product = new Product(productIdFK, productName, purchasePrice, salesPrice, countryOfOrigin, minStock);
+				productsMap.put(productIdFK, product);
+			}
+			
+			OrderLine orderLine = new OrderLine(quantity, subTotalPrice, productsMap.get(productIdFK));
+			order.addOrderLine(orderLine);
+			
+		}
+		return order;
 	}
+
 	// get order
 }

@@ -1,6 +1,9 @@
 package Controller;
 //
 import Database.OrderDatabase;
+import Database.OrderDatabaseInterface;
+
+import java.sql.SQLException;
 import java.time.LocalDate;
 import Model.Customer;
 import Model.Invoice;
@@ -10,23 +13,24 @@ import Model.Product;
 public class OrderController {
 
 
-	private ProductController productController;
-	private OrderDatabase orderDatabase;
-	private CustomerController customerController;
+	private OrderDatabaseInterface orderDatabaseIF;
 	
 
-	public OrderController(ProductController productController, OrderDatabase orderDatabase,
-			CustomerController customerController) {
-		super();
-		this.productController = productController;
-		this.orderDatabase = orderDatabase;
-		this.customerController = customerController;
+	public OrderController() throws SQLException {
+		orderDatabaseIF = new OrderDatabase();
+		
 	}
 
-	public Order endOrder(Order order) {
-		//
+	public Order endOrder(Order order) throws SQLException {
+		order.setDate(LocalDate.now());
+		order.setDeliveryDate(LocalDate.now().plusDays(14));
+		order.setDeliveryStatus(true);
 		
-		return order;
+		return orderDatabaseIF.createOrder(order);
+	}
+	
+	public Order getOrder(int id) throws SQLException{
+		return orderDatabaseIF.getOrder(id);
 	}
 
 	
