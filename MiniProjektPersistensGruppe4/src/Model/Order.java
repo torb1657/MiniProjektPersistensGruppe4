@@ -1,18 +1,18 @@
 package Model;
-//
+
 import java.time.LocalDate;
 import java.util.List;
 
 public class Order {
 	private LocalDate date;
-	private int amount;
+	private double amount;
 	private boolean deliveryStatus;
 	private LocalDate deliveryDate;
 	private Customer customer;
 	private List<OrderLine> orderLines;
 	private Invoice invoice;
 	
-	public Order(LocalDate date, int amount, boolean deliveryStatus, LocalDate deliveryDate, Customer customer) {
+	public Order(LocalDate date, double amount, boolean deliveryStatus, LocalDate deliveryDate, Customer customer) {
 		this.customer = customer;
 		this.date = date;
 		this.amount = amount;
@@ -28,11 +28,11 @@ public class Order {
 		this.date = date;
 	}
 
-	public int getAmount() {
+	public double getAmount() {
 		return amount;
 	}
 
-	public void setAmount(int amount) {
+	public void setAmount(double amount) {
 		this.amount = amount;
 	}
 

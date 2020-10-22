@@ -74,7 +74,7 @@ public class OrderDatabase implements OrderDatabaseInterface {
 	private int persistOrder(Order order) throws SQLException {
 		createOrderPS.setDate(1, Date.valueOf(order.getDate()));
 		createOrderPS.setDate(2, Date.valueOf(order.getDeliveryDate()));
-		createOrderPS.setInt(3, order.getAmount());// lav om til double
+		createOrderPS.setDouble(3, order.getAmount());
 		createOrderPS.setInt(4, order.getCustomer().getCustomerId());
 		createOrderPS.executeUpdate(); // det kan være at man skal bruge execute hvor man executeLargeUpdate(sql,
 										// columnNames)
