@@ -57,6 +57,14 @@ public void setMinOnStock(int minOnStock) {
 	this.minOnStock = minOnStock;
 }
 
+public int getProductId() {
+	return productId;
+}
+
+public void setProductId(int productId) {
+	this.productId = productId;
+}
+
 
 }
 
