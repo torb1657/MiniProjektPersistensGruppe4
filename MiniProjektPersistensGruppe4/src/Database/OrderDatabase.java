@@ -17,11 +17,11 @@ import Model.Product;
 
 public class OrderDatabase implements OrderDatabaseInterface {
 
-	private static final String PERSIST_ORDER_Q = "insert into order (orderDate, deliveryDate, orderAmount, customerIdFK) VALUES (?, ?, ?, ?)";
+	private static final String PERSIST_ORDER_Q = "insert into orderTable (orderDate, orderAmount, deliveryStatus, deliveryDate, customerIdFK) VALUES (?, ?, ?, ?, ?)";
 	private PreparedStatement persistOrderPS;
 	private static final String PERSIST_ORDERLINE_Q = "insert into orderLine (quantity, subTotalPrice, productIdFK, orderIdFK) VALUES (?, ?, ?, ?)";
 	private PreparedStatement persistOrderLinePS;
-	private static final String GET_ORDER_Q = "select z.city, c.firstName, c.lastName, c.minit, c.phoneNumber, c.zipCodeCityFK, c.customerAddress, o.orderDate, o.orderAmount, o.deliveryStatus, o.deliveryDate, o.customerIdFK"
+	private static final String GET_ORDER_Q = "select z.city, c.firstName, c.lastName, c.minit, c.phoneNumber, c.customerAddress, c.zipCodeCityFK, o.orderDate, o.orderAmount, o.deliveryStatus, o.deliveryDate, o.customerIdFK"
 			+ " , ol.quantity, ol.subTotalPrice, ol.productIdFK, ol.orderIdFK, p.productName, p.purchasePrice, p.salesPrice, p.countryOfOrigin, p.minStock from orderTable as o, orderLine as ol, product as p, Customer as c, zipCode_city as z where z.zipCodeCity = c.zipCodeCityFK and c.customerId = o.customerIdFK"
 			+ " and o.orderId = ol.orderIdFK and ol.productIdFK = p.productId and o.orderId = ?";
 	private PreparedStatement getOrderPS;
@@ -72,9 +72,10 @@ public class OrderDatabase implements OrderDatabaseInterface {
 
 	private int persistOrder(Order order) throws SQLException {
 		persistOrderPS.setDate(1, Date.valueOf(order.getDate()));
-		persistOrderPS.setDate(2, Date.valueOf(order.getDeliveryDate()));
-		persistOrderPS.setDouble(3, order.getAmount());
-		persistOrderPS.setInt(4, order.getCustomer().getCustomerId());
+		persistOrderPS.setDouble(2, order.getAmount());
+		persistOrderPS.setBoolean(3, order.isDeliveryStatus());
+		persistOrderPS.setDate(4, Date.valueOf(order.getDeliveryDate()));
+		persistOrderPS.setInt(5, order.getCustomer().getCustomerId());
 		persistOrderPS.executeUpdate();
 		ResultSet resultSet = persistOrderPS.getGeneratedKeys();
 		resultSet.next();
@@ -102,8 +103,8 @@ public class OrderDatabase implements OrderDatabaseInterface {
 			String lastName = resultSet.getString("lastName");
 			String minit = resultSet.getString("minit");
 			String phoneNumber = resultSet.getString("phoneNumber");
-			String zipCodeCityFK = resultSet.getString("zipCodeCityFK");
 			String customerAddress = resultSet.getString("customerAddress");
+			String zipCodeCityFK = resultSet.getString("zipCodeCityFK");
 			LocalDate orderDate = resultSet.getDate("orderDate").toLocalDate();
 			double orderAmount = resultSet.getDouble("orderAmount");
 			boolean deliveryStatus = resultSet.getBoolean("deliveryStatus");
