@@ -22,9 +22,9 @@ public class OrderController {
 	}
 
 	public Order endOrder(Order order) throws SQLException {
-		order.setDate(LocalDate.now());
-		order.setDeliveryDate(LocalDate.now().plusDays(14));
-		order.setDeliveryStatus(true);
+		//order.setDate(LocalDate.now());
+		//order.setDeliveryDate(LocalDate.now().plusDays(14));
+		//order.setDeliveryStatus(true);
 		
 		return orderDatabaseIF.createOrder(order);
 	}
