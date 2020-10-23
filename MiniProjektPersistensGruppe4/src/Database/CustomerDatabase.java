@@ -11,13 +11,13 @@ import java.util.List;
 import Model.Customer;
 
 public class CustomerDatabase implements CustomerDatabaseInterface {
-	private DBConnection dbConnection;
 
-	private static final String FIND_ALL_CUSTOMERS_BY_NAME_Q = "select c.customerId, c.firstName, c.lastName, c.minit from Customer c where c.firstName like ? or c.lastName like ? or "
-			+ "c.minit like ?";
+	private static final String FIND_ALL_CUSTOMERS_BY_NAME_Q = "select c.customerId, c.firstName, c.lastName, "
+			+ "c.minit from Customer c where c.firstName like ? or c.lastName like ? or " + "c.minit like ?";
 	private PreparedStatement findAllCustomersByNamePS;
 
-	private static final String INSERT = "insert into Customer (phoneNo, lastName, name, middleName, address, zipCode, city) values (?, ?, ?, ?, ?, ?, ?)";
+	private static final String INSERT = "insert into Customer (phoneNo, lastName, name, middleName, address, "
+			+ "zipCode, city) values (?, ?, ?, ?, ?, ?, ?)";
 	private PreparedStatement insertPS;
 
 	private static final String DELETE = "delete from Customer where name = ?";

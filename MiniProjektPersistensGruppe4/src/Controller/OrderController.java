@@ -31,9 +31,4 @@ public class OrderController {
 		return orderDatabaseIF.getOrder(id);
 	}
 
-	public void setDates(Order order) {
-		order.setDate(LocalDate.now());
-		order.setDeliveryDate(LocalDate.now());
-	}
-
 }

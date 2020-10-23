@@ -17,12 +17,19 @@ import Model.Product;
 
 public class OrderDatabase implements OrderDatabaseInterface {
 
-	private static final String PERSIST_ORDER_Q = "insert into orderTable (orderDate, orderAmount, deliveryStatus, deliveryDate, customerIdFK) VALUES (?, ?, ?, ?, ?)";
+	private static final String PERSIST_ORDER_Q = "insert into orderTable (orderDate, orderAmount, "
+			+ "deliveryStatus, deliveryDate, customerIdFK) VALUES (?, ?, ?, ?, ?)";
 	private PreparedStatement persistOrderPS;
-	private static final String PERSIST_ORDERLINE_Q = "insert into orderLine (quantity, subTotalPrice, productIdFK, orderIdFK) VALUES (?, ?, ?, ?)";
+	private static final String PERSIST_ORDERLINE_Q = "insert into orderLine (quantity, subTotalPrice, "
+			+ "productIdFK, orderIdFK) VALUES (?, ?, ?, ?)";
 	private PreparedStatement persistOrderLinePS;
-	private static final String GET_ORDER_Q = "select z.city, c.firstName, c.lastName, c.minit, c.phoneNumber, c.customerAddress, c.zipCodeCityFK, o.orderDate, o.orderAmount, o.deliveryStatus, o.deliveryDate, o.customerIdFK"
-			+ " , ol.quantity, ol.subTotalPrice, ol.productIdFK, ol.orderIdFK, p.productName, p.purchasePrice, p.salesPrice, p.countryOfOrigin, p.minStock from orderTable as o, orderLine as ol, product as p, Customer as c, zipCode_city as z where z.zipCodeCity = c.zipCodeCityFK and c.customerId = o.customerIdFK"
+	private static final String GET_ORDER_Q = "select z.city, c.firstName, c.lastName, c.minit, "
+			+ "c.phoneNumber, c.customerAddress, c.zipCodeCityFK, o.orderDate, o.orderAmount, "
+			+ "o.deliveryStatus, o.deliveryDate, o.customerIdFK"
+			+ " , ol.quantity, ol.subTotalPrice, ol.productIdFK, ol.orderIdFK, p.productName, "
+			+ "p.purchasePrice, p.salesPrice, p.countryOfOrigin, p.minStock from orderTable as o, "
+			+ "orderLine as ol, product as p, Customer as c, "
+			+ "zipCode_city as z where z.zipCodeCity = c.zipCodeCityFK and c.customerId = o.customerIdFK"
 			+ " and o.orderId = ol.orderIdFK and ol.productIdFK = p.productId and o.orderId = ?";
 	private PreparedStatement getOrderPS;
 
@@ -50,7 +57,7 @@ public class OrderDatabase implements OrderDatabaseInterface {
 		} catch (SQLException e) {
 			try {
 				DBConnection.getInstance().rollbackTransaction();
-				throw new RuntimeException("transaction rollback");
+				throw new RuntimeException("Transaction rollback");
 			} catch (SQLException e1) {
 				throw new RuntimeException(e1);
 			}
