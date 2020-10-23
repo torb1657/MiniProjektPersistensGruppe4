@@ -1,4 +1,5 @@
 package Controller;
+
 import java.sql.SQLException;
 //
 import java.util.List;
@@ -14,9 +15,9 @@ public class ProductController {
 		this.productDatabaseIF = new ProductDatabase();
 	}
 
-public List<Product> findProductsByName(String name){
-	return productDatabaseIF.findProductsByName(name);
-	
-}
+	public List<Product> findProductsByName(String name) {
+		return productDatabaseIF.findProductsByName(name);
+
+	}
 
 }

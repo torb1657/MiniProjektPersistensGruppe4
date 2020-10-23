@@ -10,13 +10,13 @@ import Model.Product;
 
 public class ProductControllerTest {
 	private ProductController productController;
-	
-	@Test
-    public void productControllerTest() throws SQLException {
-        productController = new ProductController();
-        List<Product> productList = productController.findProductsByName("b");
-        System.out.println(productList);
 
-    }
+	@Test
+	public void productControllerTest() throws SQLException {
+		productController = new ProductController();
+		List<Product> productList = productController.findProductsByName("b");
+		System.out.println(productList);
+
+	}
 
 }

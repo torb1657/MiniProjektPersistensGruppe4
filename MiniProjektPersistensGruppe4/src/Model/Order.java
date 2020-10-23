@@ -11,8 +11,7 @@ public class Order {
 	private LocalDate deliveryDate;
 	private Customer customer;
 	private List<OrderLine> orderLines;
-	private Invoice invoice;
-	
+
 	public Order(LocalDate date, double amount, boolean deliveryStatus, LocalDate deliveryDate, Customer customer) {
 		this.customer = customer;
 		this.date = date;
@@ -65,20 +64,16 @@ public class Order {
 	public List<OrderLine> getOrderLine() {
 		return orderLines;
 	}
-	
+
 	public void createOrderLine(int quantity, Product product) {
 		double subTotal = product.getPurchasePrice() * quantity;
 		OrderLine orderLine = new OrderLine(quantity, subTotal, product);
 		orderLines.add(orderLine);
-		
-	}
-	
-	public void addOrderLine(OrderLine orderLine) {
-		orderLines.add(orderLine);
-		
-	}
-	public void createInvoice() {//ekstra til invoice skal i parameterene {
-		 invoice = new Invoice(1, "123", 2); // invoice skal creates og måske kaldes med nogle parameter (det meste ligger inde i orderen)
+
 	}
 
+	public void addOrderLine(OrderLine orderLine) {
+		orderLines.add(orderLine);
+
+	}
 }

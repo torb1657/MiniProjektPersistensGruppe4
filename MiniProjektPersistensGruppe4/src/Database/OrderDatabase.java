@@ -16,20 +16,15 @@ import Model.OrderLine;
 import Model.Product;
 
 public class OrderDatabase implements OrderDatabaseInterface {
-//
+
 	private static final String PERSIST_ORDER_Q = "insert into order (orderDate, deliveryDate, orderAmount, customerIdFK) VALUES (?, ?, ?, ?)";
 	private PreparedStatement persistOrderPS;
 	private static final String PERSIST_ORDERLINE_Q = "insert into orderLine (quantity, subTotalPrice, productIdFK, orderIdFK) VALUES (?, ?, ?, ?)";
 	private PreparedStatement persistOrderLinePS;
-	private static final String GET_ORDER_Q = "select z.city, c.firstName, c.lastName, c.minit, c.phoneNumber, c.zipCodeCityFK, c.customerAddress, o.orderDate, o.orderAmount, o.deliveryStatus, o.deliveryDate, o.customerIdFK" + 
-			" , ol.quantity, ol.subTotalPrice, ol.productIdFK, ol.orderIdFK, p.productName, p.purchasePrice, p.salesPrice, p.countryOfOrigin, p.minStock from orderTable as o, orderLine as ol, product as p, Customer as c, zipCode_city as z where z.zipCodeCity = c.zipCodeCityFK and c.customerId = o.customerIdFK" + 
-			" and o.orderId = ol.orderIdFK and ol.productIdFK = p.productId and o.orderId = ?";
+	private static final String GET_ORDER_Q = "select z.city, c.firstName, c.lastName, c.minit, c.phoneNumber, c.zipCodeCityFK, c.customerAddress, o.orderDate, o.orderAmount, o.deliveryStatus, o.deliveryDate, o.customerIdFK"
+			+ " , ol.quantity, ol.subTotalPrice, ol.productIdFK, ol.orderIdFK, p.productName, p.purchasePrice, p.salesPrice, p.countryOfOrigin, p.minStock from orderTable as o, orderLine as ol, product as p, Customer as c, zipCode_city as z where z.zipCodeCity = c.zipCodeCityFK and c.customerId = o.customerIdFK"
+			+ " and o.orderId = ol.orderIdFK and ol.productIdFK = p.productId and o.orderId = ?";
 	private PreparedStatement getOrderPS;
-	
-	// enten joiner vi i sql kaldet, eller kalder hver for sig
-	// først finde ordren, orderLiner og deri produkterne deri (mange gange eller en
-	// gange)
-	// det samme skal laves til en invoice
 
 	public OrderDatabase() throws SQLException {
 		init();
@@ -55,8 +50,7 @@ public class OrderDatabase implements OrderDatabaseInterface {
 		} catch (SQLException e) {
 			try {
 				DBConnection.getInstance().rollbackTransaction();
-				throw new RuntimeException("transaction rollback");// overvej om der skal alves en mere sigenede
-																	// exception
+				throw new RuntimeException("transaction rollback");
 			} catch (SQLException e1) {
 				throw new RuntimeException(e1);
 			}
@@ -73,17 +67,7 @@ public class OrderDatabase implements OrderDatabaseInterface {
 	public Order createOrder(Order order) throws SQLException {
 		int orderId = persistTotalOrder(order);
 		return getOrder(orderId);
-		
-		
-		
-		// der skal joines ordre, orderliner og produkt (invoice)
-		// det jeg skal have retur ved den join er linjer svarende til antal ordreliner
-		// på hver linje er der en union af ordre information, produktets information og
-		// ordrelinje
-		// kald hver eneste parameter as et eller andet, sådan parameterne i joinet
-		// hedder noget
-		// select o.name, o.:::, ol., p.name.. from order as o, orderline as ol, product
-		// as p, where o.orderId = orderLineiDFK og ordelineIdFK = productId
+
 	}
 
 	private int persistOrder(Order order) throws SQLException {
@@ -91,11 +75,7 @@ public class OrderDatabase implements OrderDatabaseInterface {
 		persistOrderPS.setDate(2, Date.valueOf(order.getDeliveryDate()));
 		persistOrderPS.setDouble(3, order.getAmount());
 		persistOrderPS.setInt(4, order.getCustomer().getCustomerId());
-		persistOrderPS.executeUpdate(); // det kan være at man skal bruge execute hvor man executeLargeUpdate(sql,
-										// columnNames)
-		// skal lave en string array med 1 element (autogenerede nøgles navn i
-		// databasen) orderId)
-
+		persistOrderPS.executeUpdate();
 		ResultSet resultSet = persistOrderPS.getGeneratedKeys();
 		resultSet.next();
 		return resultSet.getInt(1);
@@ -108,16 +88,15 @@ public class OrderDatabase implements OrderDatabaseInterface {
 		persistOrderLinePS.setInt(3, productId);
 		persistOrderLinePS.setInt(4, orderId);
 		persistOrderLinePS.execute();
-		
 
 	}
-	
-	public Order buildOrder(ResultSet resultSet) throws SQLException{
+
+	public Order buildOrder(ResultSet resultSet) throws SQLException {
 		Order order = null;
 		Customer customer = null;
 		Map<Integer, Product> productsMap = new HashMap<>();
-		
-		while(resultSet.next()) {
+
+		while (resultSet.next()) {
 			String city = resultSet.getString("city");
 			String firstName = resultSet.getString("firstName");
 			String lastName = resultSet.getString("lastName");
@@ -139,25 +118,26 @@ public class OrderDatabase implements OrderDatabaseInterface {
 			double salesPrice = resultSet.getDouble("salesPrice");
 			String countryOfOrigin = resultSet.getString("countryOfOrigin");
 			int minStock = resultSet.getInt("minStock");
-			
-			if(customer == null) {
-				customer = new Customer(customerIdFK, firstName,customerAddress,zipCodeCityFK, city, phoneNumber, lastName, minit);
-				
+
+			if (customer == null) {
+				customer = new Customer(customerIdFK, firstName, customerAddress, zipCodeCityFK, city, phoneNumber,
+						lastName, minit);
+
 			}
-			if(order == null) {
+			if (order == null) {
 				order = new Order(orderDate, orderAmount, deliveryStatus, deliveryDate, customer);
 			}
-			if(!productsMap.containsKey(productIdFK)) {
-				Product product = new Product(productIdFK, productName, purchasePrice, salesPrice, countryOfOrigin, minStock);
+			if (!productsMap.containsKey(productIdFK)) {
+				Product product = new Product(productIdFK, productName, purchasePrice, salesPrice, countryOfOrigin,
+						minStock);
 				productsMap.put(productIdFK, product);
 			}
-			
+
 			OrderLine orderLine = new OrderLine(quantity, subTotalPrice, productsMap.get(productIdFK));
 			order.addOrderLine(orderLine);
-			
+
 		}
 		return order;
 	}
 
-	// get order
 }

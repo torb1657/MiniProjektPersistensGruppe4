@@ -11,12 +11,11 @@ import Model.Customer;
 public class CustomerControllerTest {
 	private CustomerController customerController;
 
-	
 	@Test
-    public void customerControllerTest() throws SQLException {
-        customerController = new CustomerController();
-        List<Customer> customerList = customerController.findCustomersByName("ho");
-        System.out.println(customerList);
+	public void customerControllerTest() throws SQLException {
+		customerController = new CustomerController();
+		List<Customer> customerList = customerController.findCustomersByName("ho");
+		System.out.println(customerList);
 
-    }
+	}
 }

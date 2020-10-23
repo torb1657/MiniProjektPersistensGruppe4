@@ -1,6 +1,5 @@
 package Model;
 
-
 public class Product {
 	private String name;
 	private double purchasePrice;
@@ -62,6 +61,5 @@ public class Product {
 	public int getProductId() {
 		return productId;
 	}
-	//
 
 }

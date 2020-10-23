@@ -1,11 +1,10 @@
 package Model;
 
 public class Invoice {
-//
 	private int invoiceNo;
 	private String paymentDate;
 	private int amount;
-	
+
 	public Invoice(int invoiceNo, String paymentDate, int amount) {
 		this.invoiceNo = invoiceNo;
 		this.paymentDate = paymentDate;

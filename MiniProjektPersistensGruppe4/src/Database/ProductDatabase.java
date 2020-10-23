@@ -7,11 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import Model.Customer;
 import Model.Product;
 
 public class ProductDatabase implements ProductDatabaseInterface {
-	private DBConnection dbConnection;
 
 	private static final String FIND_PRODUCTS_BY_NAMEINPUT_Q = "select p.productId, p.productName, p.purchasePrice  from Product p where p.productName like ?";
 	private PreparedStatement findProductsByNameInputPS;
@@ -50,7 +48,7 @@ public class ProductDatabase implements ProductDatabaseInterface {
 		double purchasePrice = resultSet.getDouble("purchasePrice");
 
 		Product product = new Product(productId, productName, purchasePrice, null, null, null);
-		
+
 		return product;
 
 	}
